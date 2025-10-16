@@ -89,6 +89,12 @@
         button:active {
             background-color: #004085;
         }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
 
         #controls {
             margin-top: 30px;
@@ -181,7 +187,7 @@
     </div>
 
     <script>
-        const DEFAULT_CAPTCHA_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaCAYAAADtK876AAABtklEQVR4Xu3cMYqEMAhGYRzBf2pP/wkhhL286rK0hUaUgo/zVd6X9+J5bWlpbW3tKk7hJt4n9Vn8D4iQ/WkAPkZ4JgCPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEtP5LwI2lpbW1tbW1vb/gE1B4d7rYwAAAABJRU5ErkJggg==';
+        const DEFAULT_CAPTCHA_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaCAYAAADtK876AAABtklEQVR4Xu3cMYqEMAhGYRzBf2pP/wkhhL286rK0hUaUgo/zVd6X9+J5bWlpbW3tKk7hJt4n9Vn8D4iQ/2kAPkZ4JgCPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEtP5LwI2lpbW1tbW1vb/gE1B4d7rYwAAAABJRU5ErkJggg==';
 
         const CAPTCHA_DATA = [
             {
@@ -220,31 +226,6 @@
             return urlParams.get(param);
         }
 
-        // Function to load a captcha image and set its expected answer
-        function loadCaptcha(url) {
-            let foundCaptcha = CAPTCHA_DATA.find(c => c.url === url);
-
-            if (foundCaptcha) {
-                currentCaptchaInfo = foundCaptcha;
-                // Update currentCaptchaIndex if we loaded a specific URL that matches our data
-                currentCaptchaIndex = CAPTCHA_DATA.indexOf(foundCaptcha);
-            } else {
-                // If an unknown URL is provided, we can't "solve" it programmatically.
-                // For this demo, we'll set a placeholder answer to demonstrate the check.
-                // In a real system, an actual solver would process this image.
-                currentCaptchaInfo = {
-                    url: url,
-                    answer: 'UNKNOWN' // Placeholder for unrecognized URLs
-                };
-                console.warn(`Loaded an unrecognized URL: ${url}. Expected answer set to 'UNKNOWN'.`);
-            }
-
-            captchaImage.src = currentCaptchaInfo.url;
-            captchaInput.value = '';
-            clearResultMessage();
-            captchaInput.focus();
-        }
-
         // Clears and hides the result message
         function clearResultMessage() {
             resultMessage.textContent = '';
@@ -257,8 +238,56 @@
             resultMessage.className = `message visible ${type}`;
         }
 
+        // Handles image loading errors
+        function handleImageError() {
+            displayMessage("Failed to load captcha image. Please check the URL or try another captcha.", "error");
+            captchaImage.src = ''; // Clear source to prevent broken image icon
+            captchaImage.alt = 'Image failed to load';
+            captchaImage.style.backgroundColor = '#fdd'; // Visual cue for error
+            captchaInput.disabled = true; // Disable input if image isn't available
+            submitButton.disabled = true;
+        }
+
+        // Function to load a captcha image and set its expected answer
+        function loadCaptcha(url) {
+            clearResultMessage(); // Clear any previous messages
+            captchaInput.value = ''; // Clear previous input
+            captchaInput.focus();   // Focus input field
+
+            // Re-enable input and buttons
+            captchaInput.disabled = false;
+            submitButton.disabled = false;
+            captchaImage.style.backgroundColor = '#eee'; // Reset background
+
+            let foundCaptcha = CAPTCHA_DATA.find(c => c.url === url);
+
+            if (foundCaptcha) {
+                currentCaptchaInfo = foundCaptcha;
+                // Update currentCaptchaIndex if we loaded a specific URL that matches our data
+                currentCaptchaIndex = CAPTCHA_DATA.indexOf(foundCaptcha);
+            } else {
+                // If an unknown URL is provided, we can't "solve" it programmatically.
+                // For this demo, we'll set a placeholder answer to demonstrate the check.
+                currentCaptchaInfo = {
+                    url: url,
+                    answer: 'UNKNOWN' // Placeholder for unrecognized URLs
+                };
+                console.warn(`Loaded an unrecognized URL: ${url}. Expected answer set to 'UNKNOWN'.`);
+            }
+
+            // Set the onerror handler directly on the element before setting src
+            captchaImage.onerror = handleImageError;
+            captchaImage.src = currentCaptchaInfo.url;
+            captchaImage.alt = 'Captcha Image'; // Reset alt text
+        }
+
         // Event handler for submitting the captcha
         function handleSubmit() {
+            if (captchaInput.disabled) {
+                displayMessage("Cannot submit: No valid captcha image loaded.", "error");
+                return;
+            }
+
             const userAnswer = captchaInput.value.trim();
             const expectedAnswer = currentCaptchaInfo.answer;
 
@@ -276,6 +305,7 @@
                 displayMessage(`Incorrect. The correct answer was "${expectedAnswer}".`, "error");
             }
             captchaInput.value = ''; // Clear input after submission
+            captchaInput.focus(); // Re-focus for next entry or if user wants to retry
         }
 
         // Event handler for loading the next sample captcha
@@ -295,8 +325,24 @@
             }
         }
 
+        // Function to preload images from CAPTCHA_DATA (improves speed for next/prev)
+        function preloadCaptchas() {
+            CAPTCHA_DATA.forEach(captcha => {
+                // Only preload external URLs, base64 is already "loaded"
+                if (captcha.url && !captcha.url.startsWith('data:')) {
+                    const img = new Image();
+                    img.src = captcha.url;
+                    // Optional: Add onload/onerror for debugging preloading issues
+                    // img.onload = () => console.log(`Preloaded: ${captcha.url}`);
+                    // img.onerror = () => console.warn(`Failed to preload: ${captcha.url}`);
+                }
+            });
+        }
+
         // --- Initial Load Logic ---
         document.addEventListener('DOMContentLoaded', () => {
+            preloadCaptchas(); // Start preloading images early
+
             const initialUrl = getQueryParam('url');
             if (initialUrl) {
                 // Decode the URL if it comes from a query parameter
