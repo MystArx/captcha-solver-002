@@ -15,6 +15,7 @@
             background-color: #f4f7f6;
             padding: 20px;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
         }
 
         #app {
@@ -26,12 +27,21 @@
             width: 100%;
             max-width: 600px;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
         h1 {
             color: #333;
-            margin-bottom: 25px;
+            margin: 0; /* Removed default margin-bottom from h1 */
             font-size: 1.8em;
+            transition: color 0.3s ease; /* Smooth transition */
         }
 
         #captcha-container {
@@ -40,6 +50,7 @@
             border: 1px solid #e0e0e0;
             border-radius: 6px;
             background-color: #fafafa;
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
         }
 
         #captcha-image {
@@ -51,6 +62,7 @@
             margin-left: auto;
             margin-right: auto;
             background-color: #eee; /* Placeholder background */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
         }
 
         #captcha-container p {
@@ -58,6 +70,7 @@
             margin-bottom: 15px;
             color: #555;
             font-size: 1.1em;
+            transition: color 0.3s ease; /* Smooth transition */
         }
 
         #captcha-input {
@@ -68,6 +81,9 @@
             border-radius: 4px;
             font-size: 1.1em;
             box-sizing: border-box;
+            background-color: #ffffff;
+            color: #333;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Smooth transition */
         }
 
         button {
@@ -95,17 +111,35 @@
             cursor: not-allowed;
         }
 
+        #dark-mode-toggle {
+            background-color: #6c757d; /* A neutral button color */
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease;
+            margin: 0; /* Override global button margin */
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+
+        #dark-mode-toggle:hover {
+            background-color: #5a6268;
+        }
 
         #controls {
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #e0e0e0;
+            transition: border-color 0.3s ease; /* Smooth transition */
         }
 
         #controls p {
             color: #666;
             margin-bottom: 10px;
             font-size: 0.95em;
+            transition: color 0.3s ease; /* Smooth transition */
         }
 
         #url-input {
@@ -116,6 +150,9 @@
             font-size: 1em;
             margin-right: 5px;
             box-sizing: border-box;
+            background-color: #ffffff;
+            color: #333;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Smooth transition */
         }
 
         #result-message {
@@ -146,10 +183,82 @@
             border-color: #f5c6cb;
         }
 
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #2c2c2c; /* Darker background */
+            color: #f0f0f0; /* Light text */
+        }
+
+        body.dark-mode #app {
+            background-color: #3a3a3a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode h1 {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode #captcha-container {
+            background-color: #444444;
+            border-color: #555555;
+        }
+
+        body.dark-mode #captcha-container p {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode #captcha-image {
+            border-color: #777;
+            background-color: #555; /* Dark placeholder */
+        }
+
+        body.dark-mode #captcha-input {
+            background-color: #555555;
+            border-color: #666666;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode #controls {
+            border-top-color: #555555;
+        }
+
+        body.dark-mode #controls p {
+            color: #cccccc;
+        }
+
+        body.dark-mode #url-input {
+            background-color: #555555;
+            border-color: #666666;
+            color: #f0f0f0;
+        }
+        
+        /* Adjust result messages for dark mode */
+        body.dark-mode #result-message.success {
+            background-color: #214d2a; /* Darker green */
+            color: #90ee90; /* Lighter green text */
+            border-color: #3e7049;
+        }
+
+        body.dark-mode #result-message.error {
+            background-color: #5c2025; /* Darker red */
+            color: #ffb6c1; /* Lighter red text */
+            border-color: #8c3b42;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             #app {
                 padding: 20px;
+            }
+            .app-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .app-header h1 {
+                margin-bottom: 15px; /* Add some space below title on small screens */
+            }
+            #dark-mode-toggle {
+                margin-bottom: 15px; /* Add space below toggle on small screens */
             }
             h1 {
                 font-size: 1.5em;
@@ -167,7 +276,10 @@
 </head>
 <body>
     <div id="app">
-        <h1>Captcha Solver Demo</h1>
+        <div class="app-header">
+            <h1>Captcha Solver Demo</h1>
+            <button id="dark-mode-toggle">Toggle Dark Mode</button>
+        </div>
 
         <div id="captcha-container">
             <img id="captcha-image" src="" alt="Captcha Image">
@@ -187,7 +299,7 @@
     </div>
 
     <script>
-        const DEFAULT_CAPTCHA_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaCAYAAADtK876AAABtklEQVR4Xu3cMYqEMAhGYRzBf2pP/wkhhL286rK0hUaUgo/zVd6X9+J5bWlpbW3tKk7hJt4n9Vn8D4iQ/2kAPkZ4JgCPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEtP5LwI2lpbW1tbW1vb/gE1B4d7rYwAAAABJRU5ErkJggg==';
+        const DEFAULT_CAPTCHA_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaCAYAAADtK876AAABtklEQVR4Xu3cMYqEMAhGYRzBf2pP/wkhhL286rK0hUaUgo/zVd6X9+J5bWlpbW1tKk7hJt4n9Vn8D4iQ/2kAPkZ4JgCPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEs/5PwI2lpbW1tbW1vb/gE0uN7p4GjOBAAAAAElFTkSuQmCC';
 
         const CAPTCHA_DATA = [
             {
@@ -219,6 +331,7 @@
         const nextCaptchaButton = document.getElementById('next-captcha-button');
         const urlInput = document.getElementById('url-input');
         const loadUrlButton = document.getElementById('load-url-button');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
 
         // Helper function to get query parameters
         function getQueryParam(param) {
@@ -257,7 +370,13 @@
             // Re-enable input and buttons
             captchaInput.disabled = false;
             submitButton.disabled = false;
-            captchaImage.style.backgroundColor = '#eee'; // Reset background
+            
+            // Reset background color based on current theme, not hardcoded light
+            if (document.body.classList.contains('dark-mode')) {
+                captchaImage.style.backgroundColor = '#555';
+            } else {
+                captchaImage.style.backgroundColor = '#eee';
+            }
 
             let foundCaptcha = CAPTCHA_DATA.find(c => c.url === url);
 
@@ -339,10 +458,55 @@
             });
         }
 
+        // Function to apply theme
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            // Update captcha image placeholder background immediately after theme change
+            if (captchaImage.src === '') { // Only if image failed to load
+                if (document.body.classList.contains('dark-mode')) {
+                    captchaImage.style.backgroundColor = '#fdd'; // Error state in dark mode
+                } else {
+                    captchaImage.style.backgroundColor = '#fdd'; // Error state in light mode
+                }
+            } else {
+                 if (document.body.classList.contains('dark-mode')) {
+                    captchaImage.style.backgroundColor = '#555';
+                } else {
+                    captchaImage.style.backgroundColor = '#eee';
+                }
+            }
+        }
+
         // --- Initial Load Logic ---
         document.addEventListener('DOMContentLoaded', () => {
             preloadCaptchas(); // Start preloading images early
 
+            // Dark mode logic
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Apply dark mode by default if OS prefers it
+                applyTheme('dark');
+                localStorage.setItem('theme', 'dark'); // Save this preference
+            } else {
+                // Default to light mode
+                applyTheme('light');
+                localStorage.setItem('theme', 'light'); // Save this preference
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                // Re-apply theme to ensure captcha image placeholder background updates
+                applyTheme(isDarkMode ? 'dark' : 'light');
+            });
+
+            // Captcha load logic
             const initialUrl = getQueryParam('url');
             if (initialUrl) {
                 // Decode the URL if it comes from a query parameter
