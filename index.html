@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Solver (Human-Assisted Demo)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f7f6;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #app {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        #captcha-container {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+
+        #captcha-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #eee; /* Placeholder background */
+        }
+
+        #captcha-container p {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        #captcha-input {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1.1em;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s ease;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            background-color: #004085;
+        }
+
+        #controls {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        #controls p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        #url-input {
+            width: calc(100% - 130px); /* Adjust based on button width */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            margin-right: 5px;
+            box-sizing: border-box;
+        }
+
+        #result-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1em;
+            visibility: hidden; /* Hidden by default */
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s linear;
+        }
+
+        #result-message.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #result-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        #result-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #app {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            #url-input {
+                width: calc(100% - 10px);
+                margin-bottom: 10px;
+            }
+            #load-url-button {
+                width: calc(100% - 10px);
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Captcha Solver Demo</h1>
+
+        <div id="captcha-container">
+            <img id="captcha-image" src="" alt="Captcha Image">
+            <p>Please enter the text you see in the image:</p>
+            <input type="text" id="captcha-input" placeholder="Enter captcha here" autocomplete="off">
+            <button id="submit-button">Submit</button>
+        </div>
+
+        <div id="result-message" class="message"></div>
+
+        <div id="controls">
+            <button id="next-captcha-button">Next Sample Captcha</button>
+            <p>Or load a specific image by URL:</p>
+            <input type="text" id="url-input" placeholder="Paste image URL here" size="50">
+            <button id="load-url-button">Load URL</button>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_CAPTCHA_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABaCAYAAADtK876AAABtklEQVR4Xu3cMYqEMAhGYRzBf2pP/wkhhL286rK0hUaUgo/zVd6X9+J5bWlpbW3tKk7hJt4n9Vn8D4iQ/WkAPkZ4JgCPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEp4JgKPEtP5LwI2lpbW1tbW1vb/gE1B4d7rYwAAAABJRU5ErkJggg==';
+
+        const CAPTCHA_DATA = [
+            {
+                url: DEFAULT_CAPTCHA_BASE64,
+                answer: '1234'
+            },
+            {
+                url: 'https://i.ibb.co/L603WqR/CAPTCHA-5678.png',
+                answer: '5678'
+            },
+            {
+                url: 'https://i.ibb.co/3W9M03c/CAPTCHA-HELLO.png',
+                answer: 'HELLO'
+            },
+            {
+                url: 'https://i.ibb.co/k2VqgXg/CAPTCHA-World.png',
+                answer: 'World'
+            }
+        ];
+
+        let currentCaptchaInfo = null; // Stores {url, answer} for the current captcha
+        let currentCaptchaIndex = 0;   // Index for cycling through CAPTCHA_DATA
+
+        // Get DOM elements
+        const captchaImage = document.getElementById('captcha-image');
+        const captchaInput = document.getElementById('captcha-input');
+        const submitButton = document.getElementById('submit-button');
+        const resultMessage = document.getElementById('result-message');
+        const nextCaptchaButton = document.getElementById('next-captcha-button');
+        const urlInput = document.getElementById('url-input');
+        const loadUrlButton = document.getElementById('load-url-button');
+
+        // Helper function to get query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Function to load a captcha image and set its expected answer
+        function loadCaptcha(url) {
+            let foundCaptcha = CAPTCHA_DATA.find(c => c.url === url);
+
+            if (foundCaptcha) {
+                currentCaptchaInfo = foundCaptcha;
+                // Update currentCaptchaIndex if we loaded a specific URL that matches our data
+                currentCaptchaIndex = CAPTCHA_DATA.indexOf(foundCaptcha);
+            } else {
+                // If an unknown URL is provided, we can't "solve" it programmatically.
+                // For this demo, we'll set a placeholder answer to demonstrate the check.
+                // In a real system, an actual solver would process this image.
+                currentCaptchaInfo = {
+                    url: url,
+                    answer: 'UNKNOWN' // Placeholder for unrecognized URLs
+                };
+                console.warn(`Loaded an unrecognized URL: ${url}. Expected answer set to 'UNKNOWN'.`);
+            }
+
+            captchaImage.src = currentCaptchaInfo.url;
+            captchaInput.value = '';
+            clearResultMessage();
+            captchaInput.focus();
+        }
+
+        // Clears and hides the result message
+        function clearResultMessage() {
+            resultMessage.textContent = '';
+            resultMessage.className = 'message';
+        }
+
+        // Displays a message with a given type (success/error)
+        function displayMessage(message, type) {
+            resultMessage.textContent = message;
+            resultMessage.className = `message visible ${type}`;
+        }
+
+        // Event handler for submitting the captcha
+        function handleSubmit() {
+            const userAnswer = captchaInput.value.trim();
+            const expectedAnswer = currentCaptchaInfo.answer;
+
+            clearResultMessage();
+
+            if (userAnswer.length === 0) {
+                displayMessage("Please enter the captcha text.", "error");
+                return;
+            }
+
+            // Compare answers (case-sensitive as typical for captchas)
+            if (userAnswer === expectedAnswer) {
+                displayMessage("Correct! Well done.", "success");
+            } else {
+                displayMessage(`Incorrect. The correct answer was "${expectedAnswer}".`, "error");
+            }
+            captchaInput.value = ''; // Clear input after submission
+        }
+
+        // Event handler for loading the next sample captcha
+        function handleNextCaptcha() {
+            currentCaptchaIndex = (currentCaptchaIndex + 1) % CAPTCHA_DATA.length;
+            loadCaptcha(CAPTCHA_DATA[currentCaptchaIndex].url);
+        }
+
+        // Event handler for loading a URL provided by the user
+        function handleLoadUrl() {
+            const customUrl = urlInput.value.trim();
+            if (customUrl) {
+                loadCaptcha(customUrl);
+                urlInput.value = '';
+            } else {
+                displayMessage("Please enter a URL to load.", "error");
+            }
+        }
+
+        // --- Initial Load Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialUrl = getQueryParam('url');
+            if (initialUrl) {
+                // Decode the URL if it comes from a query parameter
+                loadCaptcha(decodeURIComponent(initialUrl));
+            } else {
+                // If no URL parameter, load the first default captcha
+                loadCaptcha(CAPTCHA_DATA[0].url);
+            }
+
+            // --- Event Listeners ---
+            submitButton.addEventListener('click', handleSubmit);
+            captchaInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    handleSubmit();
+                }
+            });
+            nextCaptchaButton.addEventListener('click', handleNextCaptcha);
+            loadUrlButton.addEventListener('click', handleLoadUrl);
+            urlInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    handleLoadUrl();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
